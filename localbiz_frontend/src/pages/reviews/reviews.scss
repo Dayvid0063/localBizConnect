@@ -1,0 +1,26 @@
+.review-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+
+    .reviews-list {
+        margin-top: 20px;
+
+        .review-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+
+            p {
+                margin: 5px 0;
+                font-weight: bold;
+
+                &:nth-child(even) {
+                    background-color: #eaeaea;
+                }
+            }
+        }
+    }
+}
