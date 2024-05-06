@@ -3,9 +3,10 @@ import { StarRating } from "star-ratings-react";
 import { useAuth } from "../context/AuthenticationContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { reviewApiRequests } from "../../api";
+import { reviewApiRequests, configApiRequests } from "../../api";
 
 const MapView = () => {
+  const [apiKey, setApiKey] = useState("");
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -21,21 +22,40 @@ const MapView = () => {
   const userInfo = user?.data?.user;
 
   useEffect(() => {
-    // Load Google Maps API script
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCnqbebQOpYAMedUi-Ct_xKwXmWlMsO_Q4&libraries=places`;
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      initMap();
+    // Fetch API key
+    const fetchApiKey = async () => {
+      try {
+        const keyResponse = await configApiRequests.getAPIkey();
+        const key = keyResponse.data.apiKey; // Access the apiKey property from the response object
+        setApiKey(key);
+      } catch (error) {
+        console.error("Error fetching API key:", error);
+        // Handle error
+      }
     };
-
-    return () => {
-      // Cleanup script
-      document.body.removeChild(script);
-    };
+  
+    fetchApiKey();
   }, []);
+
+  useEffect(() => {
+    if (apiKey) {
+      // Load Google Maps API script
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        initMap();
+      };
+
+      return () => {
+        // Cleanup script
+        document.body.removeChild(script);
+      };
+    }
+  }, [apiKey]);
+
 
   const initMap = () => {
     // Try HTML5 geolocation

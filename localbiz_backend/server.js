@@ -17,6 +17,8 @@ const upload = multer({ storage: storage });
 const user = require("./routes/userRoutes");
 const admin = require("./routes/adminRoutes");
 const review = require("./routes/reviewRoutes");
+const configRoute = require('./routes/configRoutes');
+
 const helmet = require("helmet");
 const compression = require("compression");
 const config = require("config");
@@ -56,6 +58,7 @@ db.connectToDatabase();
 app.use("/api/v2/admin", admin);
 app.use("/api/v2/user", user);
 app.use("/api/v2/review", review);
+app.use('/', configRoute);
 
 const port = process.env.PORT || config.get("port");
 server.listen(port, function () {

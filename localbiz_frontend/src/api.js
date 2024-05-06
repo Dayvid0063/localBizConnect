@@ -13,6 +13,11 @@ const reviewApi = axios.create({
   withCredentials: true,
 });
 
+const configAPI = axios.create({
+  baseURL: ServerUrl,
+  withCredentials: true,
+});
+
 const usersApi = axios.create({
   baseURL: ServerUrl,
   withCredentials: true,
@@ -40,6 +45,10 @@ const usersApiRoutes = {
   getUsersCount: "/user/count",
 };
 
+const configApiRoutes = {
+  getAPIkey: "/config",
+};
+
 // Functions to make API requests for authentication
 const authApiRequests = {
   loginAdmin: async (email, password) => {
@@ -49,6 +58,12 @@ const authApiRequests = {
     return await authApi.post(authRoutes.createAdmin, data);
   },
   // Add more functions for other authentication routes
+};
+
+const configApiRequests = {
+  getAPIkey: async (APIkey) => {
+    return await configAPI.get(configApiRoutes.getAPIkey, APIkey);
+  },
 };
 
 //Functions to make API request for reviews
@@ -89,4 +104,4 @@ const usersApiRequests = {
   },
 };
 
-export { authApiRequests, usersApiRequests, reviewApiRequests };
+export { authApiRequests, usersApiRequests, reviewApiRequests, configApiRequests };
