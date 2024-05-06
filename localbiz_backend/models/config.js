@@ -8,9 +8,9 @@ const configSchema = new mongoose.Schema({
 });
 
 const Config = mongoose.model('Config', configSchema);
-
+const config = require("config");
 // Assuming you have connected to your MongoDB instance
-const apiKey = "AIzaSyCnqbebQOpYAMedUi-Ct_xKwXmWlMsO_Q4";
+const apiKey = config.get("apikey");
 
 const saveApiKey = async () => {
     const config = new Config({ apiKey });
