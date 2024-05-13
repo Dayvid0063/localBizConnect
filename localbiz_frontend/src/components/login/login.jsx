@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthenticationContext";
 import { authApiRequests } from "../../api";
 
 const Login = () => {
+  // Initialize state variables
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -15,12 +16,13 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Use the loginAdmin function from apiRequests
+      // Use the loginAdmin function from apiRequests to login
       const userData = await authApiRequests.loginAdmin(email, password);
 
       toast.success("Login Success!");
@@ -40,6 +42,7 @@ const Login = () => {
     }
   };
 
+  // Render the login form
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

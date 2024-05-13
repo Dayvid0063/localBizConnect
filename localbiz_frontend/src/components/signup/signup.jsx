@@ -7,21 +7,25 @@ import { server } from "../../server";
 import { toast } from "react-toastify";
 
 const Signup = () => {
+  // Initialize state variables
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // Configure headers and create a new FormData instance
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     const newForm = new FormData();
     newForm.append("name", name);
     newForm.append("email", email);
     newForm.append("password", password);
+    // Send a POST request to the server to create a new admin account
     axios
       .post(`${server}/admin/create-admin`, newForm, config)
       .then((res) => {
@@ -38,6 +42,7 @@ const Signup = () => {
       });
   };
 
+  // Render the Signup form
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

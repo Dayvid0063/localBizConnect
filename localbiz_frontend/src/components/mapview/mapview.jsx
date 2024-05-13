@@ -1,3 +1,4 @@
+// Importing components and functions
 import React, { useEffect, useState } from "react";
 import { StarRating } from "star-ratings-react";
 import { useAuth } from "../context/AuthenticationContext";
@@ -6,6 +7,7 @@ import { toast } from "react-toastify";
 import { reviewApiRequests, configApiRequests } from "../../api";
 
 const MapView = () => {
+  // Initializing state variables and hooks
   const [apiKey, setApiKey] = useState("");
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +41,7 @@ const MapView = () => {
 
   useEffect(() => {
     if (apiKey) {
-      // Load Google Maps API script
+      // Load Google Maps API script and initializing the map
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
       script.async = true;
@@ -57,8 +59,8 @@ const MapView = () => {
   }, [apiKey]);
 
 
+  // Initializing the map and handling geolocation errors
   const initMap = () => {
-    // Try HTML5 geolocation
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -94,6 +96,7 @@ const MapView = () => {
     }
   };
 
+  // Handling geolocation errors and setting a default location
   const handleLocationError = (browserHasGeolocation) => {
     console.error(
       browserHasGeolocation
@@ -121,6 +124,7 @@ const MapView = () => {
     getNearbyPlaces(pos);
   };
 
+  // Fetching nearby places based on the user's location and search query
   const getNearbyPlaces = (position) => {
     setLoading(true);
     const request = {
@@ -134,6 +138,7 @@ const MapView = () => {
     service.nearbySearch(request, nearbyCallback);
   };
 
+  // Creating markers for nearby places and adding click listeners
   const nearbyCallback = (results, status) => {
     setLoading(false);
     if (status === window.google.maps.places.PlacesServiceStatus.OK) {
@@ -180,6 +185,7 @@ const MapView = () => {
   };
 
   const showDetails = (placeResult, marker, status) => {
+    // Callback function to show detailed place information
     if (status === window.google.maps.places.PlacesServiceStatus.OK) {
       setSelectedPlace(placeResult);
     } else {
@@ -212,6 +218,7 @@ const MapView = () => {
   };
 
   const handleSubmitReview = async (e) => {
+    // Handle review submission
     const business_name = selectedPlace.name;
     const business_address = selectedPlace.formatted_address;
     const userId = userInfo._id;
